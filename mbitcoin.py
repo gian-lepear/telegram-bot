@@ -2,14 +2,20 @@ import requests
 import json
 import datetime
 
+url = 'https://www.mercadobitcoin.net/api'
+method = 'ticker'
+
 
 def retornaHoraValor(url, coin, method):
     url = "{}/{}/{}".format(url, coin, method)
     r = requests.get(url)
     json_data = r.json()
-    data = json_data['ticker']['date']
+    data = intToDatetime(json_data['ticker']['date'])
     last_value = json_data['ticker']['last']
-    return (data, last_value)
+    resposta = imprimeDataValor(data, coin, last_value)
+    print(url)
+    return resposta
+    # return (data, last_value)
 
 
 def intToDatetime(dataInt):
@@ -21,9 +27,9 @@ def imprimeDataValor(data, coin, valor):
 
 # import mbitcoin as mb
 
-# url = 'https://www.mercadobitcoin.net/api'
+
 # coin = 'LTC'
-# method = 'ticker'
+
 
 # data, last_value = retornaHoraValor(url, coin, method)
 # data = intToDatetime(data)
