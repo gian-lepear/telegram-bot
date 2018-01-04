@@ -14,7 +14,7 @@ def retornaHoraValor(url, coin, method):
     last_value = json_data['ticker']['last']
     resposta = imprimeDataValor(data, coin, last_value)
     print(url)
-    return resposta
+    return (resposta, data, coin, last_value)
     # return (data, last_value)
 
 

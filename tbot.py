@@ -20,32 +20,6 @@ def get_json_from_url(url):
     return js
 
 
-# {
-#     "ok": true,
-#     "result": [{
-#             "update_id": 625407400,
-#             "message": {
-#                 "message_id": 1,
-#                 "from": {
-#                     "id": 24860000,
-#                     "first_name": "Gareth",
-#                     "last_name": "Dwyer (sixhobbits)",
-#                     "username": "sixhobbits"
-#                 },
-#                 "chat": {
-#                     "id": 24860000,
-#                     "first_name": "Gareth",
-#                     "last_name": "Dwyer (sixhobbits)",
-#                     "username": "sixhobbits",
-#                     "type": "private"
-#                 },
-#                 "date": 1478087433,
-#                 "text": "/start",
-#                 "entities": [{ "type": "bot_command", "offset": 0, "length": 6 }]
-#             }
-#         }
-#     ]
-# }
 def get_updates(offset=None):
     url = URL + "getUpdates?timeout=100"
     if offset:
@@ -80,7 +54,7 @@ def echo_all(updates):
         try:
             text = update["message"]["text"]
             chat = update["message"]["chat"]["id"]
-            #send_message(text, chat)
+            # send_message(text, chat)
             return (text, chat)
         except Exception as e:
             print(e)
@@ -88,17 +62,36 @@ def echo_all(updates):
 
 def comandos_messages(texto, chat):
     if texto == '/start':
-        mensagem = 'Bem vindo ao bot de preços, digite a moeda que você quer monitorar'
-        send_message(mensagem, chat)
+        # mensagem = 'Bem vindo ao bot de preços, digite a moeda que você quer monitorar: \n\'BTC\' para Bitcoin \n\'LTC\' para Litecoin'
+        mensagem2 = 'Menu digite:\n1- Para perguntar o preço\n2-Para monitor o preço'
+        send_message(mensagem2, chat)
 
 
-def getMoeda(texto, chat_id):
-    if texto.lower() == 'ltc':
-        return 'LTC'
-    elif texto.lower() == 'btc':
-        return 'BTC'
-    else:
-        send_message('Não entendi, por favor repita', chat_id)
+def getMoedaPreco(chat_id):
+    last_update_id = None
+    coin = None
+    updates = get_updates(last_update_id)
+    if len(updates["result"]) > 0:
+        last_update_id = get_last_update_id(updates) + 1
+        send_message(
+            'Digite:\nLitecoin ou LTC para Litecoins\nBitecoin ou BTC para Bitecoins', chat_id)
+        time.sleep(10)
+        texto, chat_id = echo_all(updates)
+        if texto.lower() == 'ltc' or texto.lower() == 'litecoin':
+            coin = 'LTC'
+        elif texto.lower() == 'btc' or texto.lower() == 'bitecoin':
+            coin = 'BTC'
+        else:
+            send_message(
+                'Não entendi, por favor repita. \nDigite: \n\'BTC\' para Bitcoin \n\'LTC\' para Litecoin', chat_id)
+        if coin != None:
+            resposta, data, coin, last_value = mbitcoin.retornaHoraValor(
+                mbitcoin.url, coin, mbitcoin.method)
+            send_message(resposta, chat_id)
+
+
+def monitoraMoeda(moeda):
+    pass
 
 
 def main():
@@ -111,11 +104,11 @@ def main():
             texto, chat_id = echo_all(updates)
             if texto == '/start':
                 comandos_messages(texto, chat_id)
-            elif texto != "":
-                coin = getMoeda(texto, chat_id)
-                if coin != None:
-                    send_message(mbitcoin.retornaHoraValor(
-                        mbitcoin.url, coin, mbitcoin.method), chat_id)
+        #     elif texto != "":
+        #         coin = getMoeda(texto, chat_id)
+        #         if coin != None:
+            if texto == '1':
+                getMoedaPreco(chat_id)
         time.sleep(0.5)
 
 
