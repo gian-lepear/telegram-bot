@@ -1,27 +1,25 @@
 {
-  "ok": true,
-  "result": [
-    {
-      "update_id": 625407400,
-      "message": {
-        "message_id": 1,
-        "from": {
-          "id": 24860000,
-          "first_name": "Gareth",
-          "last_name": "Dwyer (sixhobbits)",
-          "username": "sixhobbits"
-        },
-        "chat": {
-          "id": 24860000,
-          "first_name": "Gareth",
-          "last_name": "Dwyer (sixhobbits)",
-          "username": "sixhobbits",
-          "type": "private"
-        },
-        "date": 1478087433,
-        "text": "/start",
-        "entities": [{ "type": "bot_command", "offset": 0, "length": 6 }]
-      }
-    }
-  ]
+    "ok": true,
+    "result": [{
+        "update_id": 625407400,
+        "message": {
+            "message_id": 1,
+            "from": {
+                "id": 24860000,
+                "first_name": "Gareth",
+                "last_name": "Dwyer (sixhobbits)",
+                "username": "sixhobbits"
+            },
+            "chat": {
+                "id": 24860000,
+                "first_name": "Gareth",
+                "last_name": "Dwyer (sixhobbits)",
+                "username": "sixhobbits",
+                "type": "private"
+            },
+            "date": 1478087433,
+            "text": "OI",
+            "entities": [{ "type": "bot_command", "offset": 0, "length": 6 }]
+        }
+    }]
 }
